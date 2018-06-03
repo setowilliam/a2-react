@@ -27,12 +27,12 @@ class Container extends Component {
     }
 
     onInputChange(event) {
-		this.setState({filterString: event.target.value})
-		console.log(this.state)
+		let val = event.target.value
+		this.setState({filterString: val})
 		let filteredEmployees = this.state.employeesModel.filter(employee => {
-			let fName = employee.FirstName.toLowerCase().includes(this.state.filterString.toLowerCase())
-			let lName = employee.LastName.toLowerCase().includes(this.state.filterString.toLowerCase())
-			let pName = employee.Position.PositionName.toLowerCase().includes(this.state.filterString.toLowerCase())
+			let fName = employee.FirstName.toLowerCase().includes(val.toLowerCase())
+			let lName = employee.LastName.toLowerCase().includes(val.toLowerCase())
+			let pName = employee.Position.PositionName.toLowerCase().includes(val.toLowerCase())
 			
 			return fName || lName || pName
 		})
@@ -42,7 +42,7 @@ class Container extends Component {
     render() {
         return (
             <div className="container">
-                <input type="text" className="form-control" placeholder="Search for Employees" id="employee-search" onKeyUp={this.onInputChange}/>
+                <input type="text" className="form-control" placeholder="Search for Employees" id="employee-search" onChange={this.onInputChange}/>
                 <div className="row">
                     <div className="container bootstrap-header-table">
                         <div className="row header-row">
