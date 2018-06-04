@@ -9,6 +9,7 @@ class App extends Component {
       <div>
         <Navbar title="Assignment 2 - Employee Details"/>
         <Container />
+        
       </div>
     );
   }
