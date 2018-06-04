@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import _ from 'lodash';
-import RefreshEmployeeRows from './RefreshEmployeeRows';
 
 class Container extends Component {
     constructor() {
@@ -11,18 +10,17 @@ class Container extends Component {
             employeesModel: [],
             filterString: ""
 		}
-		this.onInputChange = this.onInputChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
     }
 
     componentDidMount() {
         axios.get("https://teams-api.herokuapp.com/employees")
         .then((res) => {
             this.setState({employeesModel: _.cloneDeep(res.data)});
-            ReactDOM.render(<RefreshEmployeeRows employees={this.state.employeesModel}/>, document.getElementById('employees-table'));
+            ReactDOM.render(this.refreshEmployeeRows(res.data), document.getElementById('employees-table'));
         })
         .catch(err => {
             console.log("Unable to get Employees");
-            //showGenericModal("Error", "Unable to get Employees")
         })
     }
 
@@ -36,9 +34,33 @@ class Container extends Component {
 			
 			return fName || lName || pName
 		})
-        ReactDOM.render(<RefreshEmployeeRows employees={filteredEmployees}/>, document.getElementById('employees-table'))
+        ReactDOM.render(this.refreshEmployeeRows(filteredEmployees), document.getElementById('employees-table'))
     }
 
+    refreshEmployeeRows(employees) {
+        return (
+            <div>
+
+                {employees.map((employee) => {
+                    return (
+                        <div className="row body-row" data-id={employee._id} key={employee._id} onClick={this.showModal}>
+                            <div className="col-xs-4 body-column">
+                                {employee.FirstName}
+                            </div>
+                            <div className="col-xs-4 body-column">
+                                {employee.LastName}
+                            </div>
+                            <div className="col-xs-4 body-column">
+                                {employee.Position.PositionName}
+                            </div>
+                        </div>
+                    )
+                })}
+
+            </div>  
+        )
+    }
+    
     render() {
         return (
             <div className="container">
