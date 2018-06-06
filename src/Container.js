@@ -75,7 +75,7 @@ class Container extends Component {
                             </div>
                         </div>
                         <div className="row body-rows" id="employees-table">
-
+                            <div className="loader"></div>
                         </div>
                     </div>
                 </div>
